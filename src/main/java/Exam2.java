@@ -3,7 +3,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * 输入日期,返回第二天的日期
  */
 public class Exam2 {
 

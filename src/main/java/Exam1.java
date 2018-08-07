@@ -1,6 +1,10 @@
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+/**
+ * 分级纳税
+ *
+ * */
 public class Exam1 {
 
     public static void main(String[] args) {
