@@ -1,3 +1,4 @@
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.dom4j.Document;
@@ -6,6 +7,7 @@ import org.dom4j.io.SAXReader;
 
 import java.io.File;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Read XML
@@ -39,18 +41,25 @@ public class Test_XML {
             Iterator<Element> it = rootNode.elementIterator();
             while (it.hasNext()) {
                 Element currentNode = it.next();
-                if (currentNode.getName() != null) {
-                    System.out.print(currentNode.getName());
-                    System.out.println(currentNode.getTextTrim());
-                    if (currentNode.nodeIterator().hasNext()) {
-                        jsonObject.addProperty(currentNode.getName(), currentNode.getTextTrim());
-                        readXml(currentNode, jsonObject);
+                if (currentNode.elements().size() == 0) {
+                    jsonObject.addProperty(currentNode.getName(), currentNode.getTextTrim());
+                    readXml(currentNode, jsonObject);
+                } else {
+                    List<Element> elements = currentNode.elements();
+                    JsonArray ja = new JsonArray();
+                    for (Element es : elements) {
+                        List<Element> e = es.elements();
+                        JsonObject jo = new JsonObject();
+                        for (Element E : e) {
+                            jo.addProperty(E.getName(), E.getTextTrim());
+                        }
+                        ja.add(jo);
                     }
+                    jsonObject.add(currentNode.getName(), ja);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 }
