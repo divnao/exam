@@ -24,6 +24,12 @@ public class Xml2Json {
     }
 
 
+    /**
+     * get the root node of the user offered xml file.
+     *
+     * @param xmlPath, xml file path.
+     * @return root node.
+     */
     public static Element getRootNode(String xmlPath) {
         try {
             File xmlFile = new File(xmlPath);
@@ -36,6 +42,12 @@ public class Xml2Json {
         return null;
     }
 
+    /**
+     * xml2josn
+     *
+     * @param rootNode, root node of the user offered xml.
+     * @param jsonObject, target json object.
+     */
     public static void readXml(Element rootNode, JsonObject jsonObject) {
         try {
             Iterator<Element> it = rootNode.elementIterator();
