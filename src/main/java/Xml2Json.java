@@ -1,5 +1,4 @@
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -10,16 +9,17 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Read XML
+ * Xml to Json
  */
-public class Test_XML {
+public class Xml2Json {
 
     public static void main(String[] args) {
         String xmlPath = "/home/huh/gits/java_exam/Exam1/pom.xml";
-
         JsonObject json = new JsonObject();
+        JsonObject innerJson = new JsonObject();
         Element rootNode = getRootNode(xmlPath);
-        readXml(rootNode, json);
+        readXml(rootNode, innerJson);
+        json.add(rootNode.getName(), innerJson);
         System.out.println(json);
     }
 
@@ -47,13 +47,15 @@ public class Test_XML {
                 } else {
                     List<Element> elements = currentNode.elements();
                     JsonArray ja = new JsonArray();
-                    for (Element es : elements) {
-                        List<Element> e = es.elements();
+                    for (Element dependency : elements) {
+                        List<Element> e = dependency.elements();
                         JsonObject jo = new JsonObject();
-                        for (Element E : e) {
-                            jo.addProperty(E.getName(), E.getTextTrim());
+                        JsonObject jd = new JsonObject();
+                        for (Element groupID : e) {
+                            jo.addProperty(groupID.getName(), groupID.getTextTrim());
                         }
-                        ja.add(jo);
+                        jd.add(dependency.getName(), jo);
+                        ja.add(jd);
                     }
                     jsonObject.add(currentNode.getName(), ja);
                 }
